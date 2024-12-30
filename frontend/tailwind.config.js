@@ -18,7 +18,7 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ["Geist", "Regular"],
+        sans: ["Geist","Poppins", "Regular"],
       },
       colors: {
         border: "hsl(var(--border))",

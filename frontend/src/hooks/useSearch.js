@@ -12,24 +12,24 @@ const useSearch = () => {
   const [trademarkSearchResult, setTrademarkSearchResult] = useState([]);
   const [judgementClassificationResult, setJudgementClassificationResult] = useState([]);
 
-  const search = async (searchType, inputType, data, isfromHistory = false) => {
-    console.log("USESEARCH", data, inputType, searchType);
+  const search = async (searchType, inputType, data, caseType, isfromHistory = false) => {
+    console.log("USESEARCH", data, inputType, searchType,caseType);
     setLoading(true); //! Start loading
 
     let query_data = {};
 
     try {
       if (searchType === "generic") {
-        query_data = { text: data.text };
+        query_data = { text: data.text, case_type:caseType };
         const response = await axios.get("http://127.0.0.1:8000/search/genericsearch", {
           params: query_data,
         });
         setGenericSearchResult(response.data);
       } else if (searchType === "trademark") {
         if (inputType === "section") {
-          query_data = { section_no: data.section, query_type: "section_no" };
+          query_data = { section_no: data.section, query_type: "section_no", case_type:caseType };
         } else {
-          query_data = { text: data.text, query_type: "text" };
+          query_data = { text: data.text, query_type: "text", case_type:caseType };
         }
 
         const response = await axios.get("http://127.0.0.1:8000/search/trademarksearch", {
@@ -50,6 +50,7 @@ const useSearch = () => {
         const searchEntry = {
           searchType,
           query_data,
+          case_type:caseType,
           timestamp: new Date().toISOString(),
         };
         if (!isfromHistory) addSearchEntry(searchEntry);
@@ -71,6 +72,7 @@ const useSearch = () => {
       judgementClassificationResult,
       loading,
       hasSearched,
+      
     };
   };
 
@@ -84,6 +86,7 @@ const useSearch = () => {
     judgementClassificationResult,
     loading,
     hasSearched,
+    setHasSearched
   };
 };
 

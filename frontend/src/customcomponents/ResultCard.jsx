@@ -23,7 +23,6 @@ const ResultCard = ({ result, result_type }) => {
       head: [["Field", "Content"]],
       body: [
         ["Title", result.Title],
-        // ["Date", result.Date],
         ["Facts", result.Facts],
         ["Issues Framed", result.Issues_framed],
         ["Decisions/Holdings", result.Decisions_Holdings],
@@ -90,17 +89,10 @@ const ResultCard = ({ result, result_type }) => {
                 <ChevronDown className="w-5 h-5 shrink-0" onClick={() => setIsExpanded(!isExpanded)} />
               )}
             </div>
-            <CardDescription className={"mt-2 text-sm " + `${!isExpanded && "line-clamp-1"}`}>{result.Title}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="flex justify-between items-center text-xs">
-              <div className="space-x-2">
-                {/* <Badge variant="outline" className="text-muted-foreground ">
-                  {result.Date}
-                </Badge> */}
-
-                <Badge>{result.result}</Badge>
-              </div>
+            
               <Badge
                 onClick={() => {
                   generateGenericPDF();

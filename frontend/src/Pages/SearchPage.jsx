@@ -1,7 +1,7 @@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { useState, useEffect } from "react";
-import { z } from "zod";
+import { set, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -9,6 +9,7 @@ import TextSearchInput from "@/customcomponents/TextSearchInput";
 import ResultCard from "@/customcomponents/ResultCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator"
 import useSearch from "@/hooks/useSearch"; // Import the custom hook
 import { useLocation } from "react-router-dom"; // Import useLocation
 // import toast from "react-hot-toast";
@@ -38,6 +39,7 @@ const SearchPage = () => {
   const location = useLocation(); // Access location
   const { state } = location; // Retrieve state
   const [searchType, setSearchType] = useState("generic");
+  const [caseType, setcaseType] = useState("trademark");
   const [inputType, setInputType] = useState("text");
 
   // Use the custom hook
@@ -51,6 +53,7 @@ const SearchPage = () => {
     judgementClassificationResult,
     loading,
     hasSearched,
+    setHasSearched
   } = useSearch();
 
   // Initialize form state
@@ -61,8 +64,10 @@ const SearchPage = () => {
 
   useEffect(() => {
     // console.log("STATE", state);
-    if (state && state.searchType !== "") {
+    if (state && state.searchType !== "" && state.caseType !== "") {
       setSearchType(state.searchType);
+      console.log("CASE TYPE", state);
+      setcaseType(state.queryData.case_type);
       if (state.queryData) {
         if (state.searchType === "trademark" && state.query_type === "section") {
           setInputType("section");
@@ -74,7 +79,7 @@ const SearchPage = () => {
           form.setValue("text", state.queryData.text); // Set text value
         }
       }
-      search(state.searchType, state.query_type, form.getValues(), true); // Perform search based on the state
+      search(state.searchType, state.query_type, form.getValues(),state.queryData.case_type, true); // Perform search based on the state
     }
   }, [state, form]);
 
@@ -85,11 +90,23 @@ const SearchPage = () => {
     setGenericSearchResult([]);
     setJudgementClassificationResult([]);
     setTrademarkSearchResult([]);
+    setHasSearched(false);
+  };
+
+  const handleCaseType = (type) => {
+    setcaseType(type); // Set the search type
+    // Reset the form and search results
+    form.reset();
+    setGenericSearchResult([]);
+    setJudgementClassificationResult([]);
+    setTrademarkSearchResult([]);
+    setHasSearched(false);
+
   };
 
   // On submit
   const onSubmit = async (data) => {
-    await search(searchType, inputType, data); // Call the search function from the custom hook
+    await search(searchType, inputType, data,caseType); // Call the search function from the custom hook
 
     console.log("SEARCH TYPE", searchType);
     console.log(judgementClassificationResult);
@@ -98,7 +115,9 @@ const SearchPage = () => {
   return (
     <div className="flex flex-col min-h-screen mx-2">
       <h1 className="mt-6 mb-4 font-extrabold text-3xl text-center">Legal Search Engine</h1>
-      <main className="flex justify-center">
+      <main className="flex flex-col justify-center gap-y-4">
+        <CaseTypeRadio caseType={caseType} handleCaseType={handleCaseType} />
+        <Separator className="my-0  w-36 self-center" decorative />
         <SearchTypeRadio searchType={searchType} handleSearchType={handleSearchType} />
       </main>
       <section className="mx-2">
@@ -143,11 +162,11 @@ const SearchTypeRadio = ({ searchType, handleSearchType }) => {
     <RadioGroup value={searchType} onValueChange={handleSearchType} className="flex flex-wrap justify-center">
       <div className="flex items-center space-x-2">
         <RadioGroupItem value="generic" id="generic" />
-        <Label htmlFor="generic">Trademark Cases</Label>
+        <Label htmlFor="generic"> Cases</Label>
       </div>
       <div className="flex items-center space-x-2">
         <RadioGroupItem value="trademark" id="trademark" />
-        <Label htmlFor="trademark">Trademark Ordinance </Label>
+        <Label htmlFor="trademark"> Ordinance </Label>
       </div>
       <div className="flex items-center space-x-2">
         <RadioGroupItem value="judgement" id="judgement" />
@@ -156,6 +175,23 @@ const SearchTypeRadio = ({ searchType, handleSearchType }) => {
     </RadioGroup>
   );
 };
+
+const CaseTypeRadio = ({ caseType, handleCaseType }) => {
+  return (
+    <RadioGroup value={caseType} onValueChange={handleCaseType} className="flex flex-wrap justify-center">
+      <div className="flex items-center space-x-2">
+        <RadioGroupItem value="trademark" id="trademark" />
+        <Label htmlFor="trademark"> Trademark </Label>
+      </div>
+      <div className="flex items-center space-x-2">
+        <RadioGroupItem value="copyright" id="copyright" />
+        <Label htmlFor="copyright"> Copyright</Label>
+      </div>
+    
+    </RadioGroup>
+  );
+};
+
 
 const TrademarkSearch = ({ form, onSubmit, inputType, setInputType, searchType, placeholder }) => {
   return (

@@ -25,13 +25,13 @@ const Navbar = () => {
     console.log("ENTRY", entry);
     switch (entry.searchType) {
       case "generic":
-        navigate("/search", { state: { searchType: entry.searchType, queryData: entry.query_data } }); // Navigate to the search results page
+        navigate("/search", { state: { searchType: entry.searchType, queryData: entry.query_data, caseType:entry.case_type } }); // Navigate to the search results page
         break;
       case "trademark":
         if (entry.query_data.query_type === "section_no") {
-          navigate("/search", { state: { searchType: entry.searchType, queryData: entry.query_data, query_type: "section" } }); // Navigate to the search results page
+          navigate("/search", { state: { searchType: entry.searchType, queryData: entry.query_data, query_type: "section",caseType:entry.case_type } }); // Navigate to the search results page
         } else {
-          navigate("/search", { state: { searchType: entry.searchType, queryData: entry.query_data, query_type: "text" } });
+          navigate("/search", { state: { searchType: entry.searchType, queryData: entry.query_data, query_type: "text",caseType:entry.case_type } });
         }
         break;
       case "judgement":

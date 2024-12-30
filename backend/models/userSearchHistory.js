@@ -15,6 +15,11 @@ const searchHistorySchema = new mongoose.Schema({
     type: mongoose.Schema.Types.Mixed, // Flexible to store different types of query data
     required: true,
   },
+  case_type: {
+    type: String, // Flexible to store different types of query data
+    enum: ["copright", "trademark", "judgment"],
+    required: true,
+  },
   timestamp: {
     type: Date,
     default: Date.now,
@@ -44,12 +49,13 @@ searchHistorySchema.statics.deleteSearchHistoryByUser = async function (userId) 
 };
 
 // Static method to save a new search history entry
-searchHistorySchema.statics.saveSearchHistory = async function (userId, searchType, query_data) {
+searchHistorySchema.statics.saveSearchHistory = async function (userId, searchType, query_data, case_type = "trademark") {
   try {
     const newHistory = new this({
       userId,
       searchType,
       query_data,
+      case_type
     });
     const savedHistory = await newHistory.save(); // Save and retrieve the full saved document
     return savedHistory; // Return the full saved entry, including _id
@@ -57,6 +63,7 @@ searchHistorySchema.statics.saveSearchHistory = async function (userId, searchTy
     throw new Error("Failed to save search history: " + error.message);
   }
 };
+
 searchHistorySchema.statics.deleteSearchHistoryById = async function (userId, historyId) {
   console.log("Delete Search History by ID called")
   return await this.findOneAndDelete({
