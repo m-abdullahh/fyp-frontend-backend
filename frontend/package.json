@@ -6,7 +6,7 @@
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview --host --port 80"
+    "preview": "vite preview --host --port 1000"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
