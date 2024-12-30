@@ -20,6 +20,10 @@ app.use(cookieparser());
 app.use(cors({ origin: "*" }));
 app.use(express.urlencoded({ extended: true }));
 
+app.get("/test", (req, res) => {
+  res.send("NODE SERVER IS LIVE");
+});
+
 // API routes
 app.use("/", require("./routes/userRoutes"));
 app.use("/search", require("./routes/searchRoutes"));
