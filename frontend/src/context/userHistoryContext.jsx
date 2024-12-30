@@ -20,7 +20,7 @@ export const HistoryProvider = ({ children }) => {
         try {
           setIsFetching(true);
           const token = user.token; // Assuming user token is available in userContext
-          const response = await axios.get("http://127.0.0.1:8000/searchhistory", {
+          const response = await axios.get("https://fyp-frontend-backend.onrender.com/searchhistory", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -48,7 +48,7 @@ export const HistoryProvider = ({ children }) => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/searchhistory",
+        "https://fyp-frontend-backend.onrender.com/searchhistory",
         { ...searchEntry },
         {
           headers: {
@@ -73,7 +73,7 @@ export const HistoryProvider = ({ children }) => {
     try {
       const token = user.token;
       // Use proper RESTful route convention to delete the specific search entry
-      await axios.delete(`http://127.0.0.1:8000/searchhistory/${entryId}`, {
+      await axios.delete(`https://fyp-frontend-backend.onrender.com/searchhistory/${entryId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -91,7 +91,7 @@ export const HistoryProvider = ({ children }) => {
 
     try {
       const token = user.token;
-      await axios.delete("http://127.0.0.1:8000/searchhistory", {
+      await axios.delete("https://fyp-frontend-backend.onrender.com/searchhistory", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

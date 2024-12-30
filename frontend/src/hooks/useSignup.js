@@ -11,7 +11,7 @@ export const useSignup = () => {
     setError(null); // Reset error state
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/register", {
+      const response = await fetch("https://fyp-frontend-backend.onrender.com/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

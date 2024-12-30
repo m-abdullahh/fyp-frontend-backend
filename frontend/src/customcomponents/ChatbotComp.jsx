@@ -84,7 +84,7 @@ export default function ChatBotComp() {
       setLoading(true);
 
       try {
-        const response = await fetch(`http://127.0.0.1:8000/search/chatbot/?text=${encodeURIComponent(messageText)}`, {
+        const response = await fetch(`https://fyp-frontend-backend.onrender.com/search/chatbot/?text=${encodeURIComponent(messageText)}`, {
             method: "GET",
         });
     
@@ -321,7 +321,7 @@ export default function ChatBotComp() {
 //       setLoading(true);
 
 //       try {
-//         const response = await fetch(`http://127.0.0.1:8000/search/chatbot/?text=${encodeURIComponent(messageText)}`, {
+//         const response = await fetch(`https://fyp-frontend-backend.onrender.com/search/chatbot/?text=${encodeURIComponent(messageText)}`, {
 //             method: "GET",
 //         });
     

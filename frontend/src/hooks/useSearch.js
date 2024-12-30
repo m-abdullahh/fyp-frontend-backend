@@ -21,7 +21,7 @@ const useSearch = () => {
     try {
       if (searchType === "generic") {
         query_data = { text: data.text, case_type:caseType };
-        const response = await axios.get("http://127.0.0.1:8000/search/genericsearch", {
+        const response = await axios.get("https://fyp-frontend-backend.onrender.com/search/genericsearch", {
           params: query_data,
         });
         setGenericSearchResult(response.data);
@@ -32,7 +32,7 @@ const useSearch = () => {
           query_data = { text: data.text, query_type: "text", case_type:caseType };
         }
 
-        const response = await axios.get("http://127.0.0.1:8000/search/trademarksearch", {
+        const response = await axios.get("https://fyp-frontend-backend.onrender.com/search/trademarksearch", {
           params: query_data,
         });
         console.log("RESPONSE", response.data);
@@ -40,7 +40,7 @@ const useSearch = () => {
         setTrademarkSearchResult(response.data);
       } else if (searchType === "judgement") {
         query_data = { text: data.text };
-        const response = await axios.get("http://127.0.0.1:8000/search/judgementclassification", {
+        const response = await axios.get("https://fyp-frontend-backend.onrender.com/search/judgementclassification", {
           params: query_data,
         });
         setJudgementClassificationResult(response.data);
