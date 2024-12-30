@@ -1,5 +1,5 @@
 // const FLASK_API_BASE_URL = "http://flask-app:5000/search"; // Adjust the URL and port as needed
-const FLASK_API_BASE_URL = "https://m-abdu11ah-search-api.hf.space/search";
+const FLASK_API_BASE_URL = process.env.FLASK_API_BASE_URL;
 const axios = require("axios");
 
 exports.genericsearch = async (req, res) => {
